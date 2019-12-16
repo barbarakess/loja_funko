@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+
+    <link rel="stylesheet" type="text/css" href="css/estilos.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <title>Caverna do Funko</title>
+</head>
+
+<body>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="js/loja.js"></script>
+    <input type="hidden" id="produto_id_delete">
+    <input type="hidden" id="compra_id_delete">
+    <input type="hidden" id="compra_tudo_delete">
+    <imput type="hidden" id="produto_id_update">
+        <!-- escondendo o id de alteração -->
+
+        <!-- tela padrão -->
+        <div class="container" id="tela_padrao" align="center">
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <br><br>
+                    <h2>Caverna do Funko</h2>
+                    <br>
+                    <br>
+                    <h3>Menu Principal</h3>
+                    <input type="button" value="Incluir Itens" id="buttonMenu" class="btn btn-lg btn-primary form-control" onclick="mostrar_tela_incluir()">
+                    <br><br><br>
+                    <input type="button" value="Lista de Itens" id="buttonMenu" class="btn btn-lg btn-primary form-control" onclick="mostrar_tela_listar()">
+                    <br><br><br>
+                    <input type="button" value="Carrinho de Compras" id="buttonMenu" class="btn btn-lg btn-primary form-control" onclick="mostrar_tela_comprar()">
+                </div>
+            </div>
+        </div>
+
+        <!-- tela inclusão -->
+        <div class="container" id="tela_inclusao" hidden>
+            <div class="row100">
+                <div class="col-md-12">
+                    <h2 align="center">Incluir Itens </h2>
+                    <br><br>
+                    <div class="inputBox">
+                        <span class="text">Nome</span>
+                        <input type="text" class="form-control" required="required" id="produto_nome">
+                        <span class="line"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row100">
+                <div class="col-md-12"><br>
+                    <div class="inputBox">
+                        <span class="text">Preço</span>
+                        <input type="text" class="form-control" required="required" id="produto_preco">
+                        <span class="line"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row100">
+                <div class="col-md-12"><br>
+                    <div class="inputBox">
+                        <span class="text">Quantidade em Estoque</span>
+                        <input type="text" class="form-control" required="required" id="produto_estoque">
+                        <span class="line"></span>
+                    </div><br><br>
+                    <input type="button" id="buttonEfeito" class="btn btn-lg btn-primary form-control" value="Salvar" onclick="produto_insert();"><br><br>
+                    <input type="button" id="buttonEfeito" class="btn btn-lg btn-primary form-control" value="Voltar" onclick="tela_incluir_mostrar_tela_padrao();"><br><br>
+                </div>
+            </div>
+        </div>
+
+        <!-- tela listar -->
+        <div class="container" id="tela_listar" hidden align="center">
+            <script type="text/javascript">
+                produto_view();
+            </script>
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Lista de Produtos</h2><br><br>
+                    <table class="table">
+                        <thead>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Quantidade em Estoque</th>
+                            <th>Preço Unitario</th>
+                            <th>Opçoes</th>
+                            <tr></tr>
+                        </thead>
+                        <tbody id="produto_listagem"></tbody>
+                    </table>
+                    <input type="button" id="buttonEfeito" class="btn btn-lg btn-primary form-control" value="Voltar" onclick="tela_listar_mostrar_tela_padrao();">
+                </div>
+            </div>
+        </div>
+
+        <!--tela comprar -->
+        <div class="container" id="tela_comprar" hidden>
+            <div class="row100">
+                <div class="col-md-12">
+                    <h2 align="center">Comprar produto</h2>
+                    <br><br>
+                    <div class="inputBox">
+                        <span class="text">ID DO PRODUTO</span>
+                        <input type="text" class="form-control" id="id_prod_compra">
+                        <span class="line"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row100">
+                <div class="col-md-12"><br>
+                    <div class="inputBox">
+                        <span class="text">NOME DO PRODUTO</span>
+                        <input type="text" class="form-control" id="nome_compra">
+                        <span class="line"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row100">
+                <div class="col-md-12"><br>
+                    <div class="inputBox">
+                        <span class="text">PREÇO DA UNIDADE</span>
+                        <input type="text" class="form-control" id="valor_unit_compra">
+                        <span class="line"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row100">
+                <div class="col-md-12"><br>
+                    <div class="inputBox">
+                        <span class="text">QUANTIDADE A SER COMPRADA</span>
+                        <input type="text" class="form-control" id="qtd_compra">
+                        <span class="line"></span>
+                    </div><br><br>
+                    <input type="button" id="buttonEfeito" class="btn btn-lg btn-primary form-control" value="Adicionar ao Carrinho" onclick="compra_insert();"><br><br>
+                    <input type="button" id="buttonEfeito" class="btn btn-lg btn-primary form-control" value="Voltar" onclick="tela_comprar_mostrar_tela_listar();"><br><br>
+                </div>
+            </div>
+        </div>
+
+        <!-- tela carrinho -->
+        <div class="container" id="tela_carrinho" hidden align="center">
+            <script type="text/javascript">
+                compra_view();
+            </script>
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Carrinho de Compras</h2><br><br>
+                    <table class="table">
+                        <thead>
+                            <th>ID do Produto</th>
+                            <th>Nome</th>
+                            <th>Quantidade</th>
+                            <th>Preço</th>
+                            <tr></tr>
+                        </thead>
+                        <tbody id="compra_listagem"></tbody>
+                    </table>
+                    <h3>Valor Total do Carrinho:</h1>R$: <input type="button" placeholder="R$" id="total" style="color:black"><br><br><br>
+                        <input type="button" id="buttonEfeito" class="btn btn-lg btn-primary form-control" value="Finalizar Compra" onclick="finalizar_compra();"><br><br>
+                        <input type="button" id="buttonEfeito" class="btn btn-lg btn-primary form-control" value="Voltar" onclick="tela_carrinho_mostrar_tela_padrao();">
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript"></script>
+
+        <script>
+            produto_view();
+        </script>
+        <footer class="container">
+            <br>
+            <br>
+            <div>
+                <h4>Desenvolvido por: Méllory Lôbo & Bárbara Késsia</h4>
+
+            </div>
+
+        </footer>
+
+</body>
+
+</html>
